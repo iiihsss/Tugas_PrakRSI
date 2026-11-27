@@ -12,6 +12,7 @@ export interface LoginResponse {
   tokenType: string;
   expiresIn: string;
   user: User;
+  ipAddress?: string;
 }
 
 export interface Stall {
@@ -61,4 +62,39 @@ export interface ApiErrorResponse {
   status?: string;
   message?: string;
   errors?: unknown;
+}
+
+export interface AuditLog {
+  id: number;
+  userId: number;
+  userName: string;
+  userEmail: string;
+  action: string;
+  targetTable: string;
+  targetId: number;
+  metadata: Record<string, unknown> | null;
+  createdAt: string;
+}
+
+export interface AuditLogPagination {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface AuditLogListResponse {
+  items: AuditLog[];
+  pagination: AuditLogPagination;
+}
+
+export interface AuditLogQueryParams {
+  page?: number;
+  pageSize?: number;
+  action?: string;
+  targetTable?: string;
+  targetId?: number;
+  userId?: number;
+  from?: string;
+  to?: string;
 }

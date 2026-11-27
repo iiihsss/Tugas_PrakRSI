@@ -6,9 +6,10 @@ export function Navbar() {
   const navigate = useNavigate();
 
   const canCreateStall = user && (user.role === 'admin' || user.role === 'owner');
+  const isAdmin = user?.role === 'admin';
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/login');
   };
 
@@ -25,6 +26,12 @@ export function Navbar() {
           {canCreateStall && (
             <Link to="/stalls/new" className="btn btn-primary btn-sm">
               + Tambah Warung
+            </Link>
+          )}
+
+          {isAdmin && (
+            <Link to="/audit-logs" className="btn btn-outline btn-sm">
+              Audit Log
             </Link>
           )}
 

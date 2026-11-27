@@ -7,6 +7,7 @@ import { StallDetailPage } from './pages/StallDetailPage';
 import { StallFormPage } from './pages/StallFormPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { AuditLogsPage } from './pages/AuditLogsPage';
 import './App.css';
 
 export function App() {
@@ -35,6 +36,14 @@ export function App() {
                 element={
                   <ProtectedRoute allowedRoles={['owner', 'admin']}>
                     <StallFormPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/audit-logs"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AuditLogsPage />
                   </ProtectedRoute>
                 }
               />

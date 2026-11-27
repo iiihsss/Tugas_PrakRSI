@@ -47,6 +47,7 @@ app.use('/reviews', reviewRouter);
 app.use('/likes', likeRouter);
 app.use('/flags', flagRouter);
 app.use('/audit-logs', auditRouter);
+app.use('/api/audit-logs', auditRouter);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

@@ -56,6 +56,16 @@
         }
       }
     },
+    "/auth/logout": {
+      "post": {
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/auth/me": {
       "get": {
         "description": "",
@@ -450,22 +460,56 @@
             "description": "Daftar audit log"
           }
         }
-      },
-      "post": {
+      }
+    },
+    "/audit-logs/{id}": {
+      "get": {
         "description": "",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "id",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/CreateAuditInput"
-            }
+            "type": "integer"
           }
         ],
         "responses": {
-          "201": {
-            "description": "Audit log dicatat"
+          "200": {
+            "description": "Detail audit log"
+          },
+          "404": {
+            "description": "Audit log tidak ditemukan"
+          }
+        }
+      }
+    },
+    "/api/audit-logs/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "Daftar audit log"
+          }
+        }
+      }
+    },
+    "/api/audit-logs/{id}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detail audit log"
+          },
+          "404": {
+            "description": "Audit log tidak ditemukan"
           }
         }
       }

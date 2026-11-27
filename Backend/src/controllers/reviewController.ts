@@ -29,8 +29,18 @@ export class ReviewController {
   };
 
   deleteReview = async (req: Request, res: Response): Promise<void> => {
-    const data = await this.reviewService.deleteReview(Number(req.params.id));
+    const { id: actorId } = getUser(req);
+    const data = await this.reviewService.deleteReview(Number(req.params.id), actorId);
     res.status(200).json({ status: 'success', data });
+  };
+
+  createReview = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const data = await this.reviewService.createReview(req.body);
+      return res.status(201).json({ status: 'success', data });
+    } catch (error) {
+      return this.handleError(res, error);
+    }
   };
 
   createForStall = async (req: Request, res: Response): Promise<void> => {

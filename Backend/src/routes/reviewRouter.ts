@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { ReviewController } from '../controllers/reviewController.ts';
+import { authenticate } from '../middlewares/auth.ts';
 
 const reviewRouter = Router();
 const reviewController = new ReviewController();
@@ -15,7 +16,7 @@ reviewRouter.post('/', (req, res) => {
   return reviewController.createReview(req, res);
 });
 
-reviewRouter.delete('/:id', (req, res) => {
+reviewRouter.delete('/:id', authenticate, (req, res) => {
   // #swagger.parameters['id'] = { in: 'path', required: true, type: 'integer' }
   // #swagger.responses[200] = { description: 'Review terhapus' }
   // #swagger.responses[404] = { description: 'Tidak ditemukan' }

@@ -12,6 +12,11 @@ export interface CreateUserInput {
 }
 
 export class UserRepository {
+  async findAll() {
+    const db = await getDb();
+    return db.select().from(users);
+  }
+
   async findByEmail(email: string) {
     const db = await getDb();
     const rows = await db.select().from(users).where(eq(users.email, email));

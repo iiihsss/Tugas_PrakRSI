@@ -34,4 +34,8 @@ export const authApi = {
     const response = await axiosInstance.get<SingleResponse<User>>('/auth/me');
     return response.data.data;
   },
+
+  logout: async (): Promise<void> => {
+    await axiosInstance.post('/auth/logout');
+  },
 };

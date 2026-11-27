@@ -1,6 +1,7 @@
 import { and, avg, count, eq, sql } from 'drizzle-orm';
 import { getDb } from '../db/index.ts';
 import { reviews, users, stalls } from '../db/schema.ts';
+import type { DbExecutor } from './auditRepository.ts';
 
 export interface CreateReviewInput {
   stallId: number;
@@ -30,14 +31,14 @@ export class ReviewRepository {
       .orderBy(reviews.id);
   }
 
-  async findById(id: number) {
-    const db = await getDb();
+  async findById(id: number, executor?: DbExecutor) {
+    const db = executor ?? (await getDb());
     const rows = await db.select().from(reviews).where(eq(reviews.id, id));
     return rows[0];
   }
 
-  async create(input: CreateReviewInput) {
-    const db = await getDb();
+  async create(input: CreateReviewInput, executor?: DbExecutor) {
+    const db = executor ?? (await getDb());
     const rows = await db
       .insert(reviews)
       .output()
@@ -51,14 +52,14 @@ export class ReviewRepository {
     return rows[0];
   }
 
-  async remove(id: number) {
-    const db = await getDb();
+  async remove(id: number, executor?: DbExecutor) {
+    const db = executor ?? (await getDb());
     const rows = await db.delete(reviews).where(eq(reviews.id, id)).output();
     return rows[0];
   }
 
-  async findByStallAndUser(stallId: number, userId: number) {
-    const db = await getDb();
+  async findByStallAndUser(stallId: number, userId: number, executor?: DbExecutor) {
+    const db = executor ?? (await getDb());
     const rows = await db
       .select()
       .from(reviews)
@@ -66,8 +67,8 @@ export class ReviewRepository {
     return rows[0];
   }
 
-  async refreshStallSummary(stallId: number) {
-    const db = await getDb();
+  async refreshStallSummary(stallId: number, executor?: DbExecutor) {
+    const db = executor ?? (await getDb());
 
     const stats = await db
       .select({

@@ -1,5 +1,8 @@
 import type { Request, Response } from 'express';
 import { AuditService } from '../services/auditService.ts';
+import { getValidated } from '../middlewares/validate.ts';
+import type { AuditQuery } from '../schemas/auditSchema.ts';
+import type { IdParam } from '../schemas/stallSchema.ts';
 
 export class AuditController {
   private auditService: AuditService;
@@ -8,29 +11,15 @@ export class AuditController {
     this.auditService = auditService;
   }
 
-  private handleError(res: Response, error: unknown): Response {
-    return res.status(500).json({
-      status: 'error',
-      message: 'Terjadi kesalahan pada server',
-      error: error instanceof Error ? error.message : String(error),
-    });
-  }
-
-  getAuditLogs = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const data = await this.auditService.getAllAuditLogs();
-      return res.status(200).json({ status: 'success', data });
-    } catch (error) {
-      return this.handleError(res, error);
-    }
+  getAuditLogs = async (_req: Request, res: Response): Promise<void> => {
+    const query = getValidated<AuditQuery>(res, 'query');
+    const data = await this.auditService.getAuditLogs(query);
+    res.status(200).json({ status: 'success', data });
   };
 
-  createAuditLog = async (req: Request, res: Response): Promise<Response> => {
-    try {
-      const data = await this.auditService.createAuditLog(req.body);
-      return res.status(201).json({ status: 'success', data });
-    } catch (error) {
-      return this.handleError(res, error);
-    }
+  getAuditLogById = async (_req: Request, res: Response): Promise<void> => {
+    const { id } = getValidated<IdParam>(res, 'params');
+    const data = await this.auditService.getAuditLogById(id);
+    res.status(200).json({ status: 'success', data });
   };
 }

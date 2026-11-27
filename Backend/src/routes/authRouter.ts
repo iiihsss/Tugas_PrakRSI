@@ -17,6 +17,10 @@ authRouter.post('/login', validate(loginSchema, 'body'), (req, res) => {
   return authController.login(req, res);
 });
 
+authRouter.post('/logout', authenticate, (req, res) => {
+  return authController.logout(req, res);
+});
+
 authRouter.get('/me', authenticate, (req, res) => {
   return authController.getMe(req, res);
 });

@@ -14,7 +14,7 @@ interface AuthContextType {
   isLoadingAuth: boolean;
   login: (payload: LoginPayload) => Promise<void>;
   register: (payload: RegisterPayload) => Promise<void>;
-  logout: () => void;
+  logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
 
@@ -62,10 +62,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await authApi.register(payload);
   };
 
-  const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
-    setUser(null);
+  const logout = async () => {
+    try {
+      if (localStorage.getItem('token')) {
+        await authApi.logout();
+      }
+    } catch {
+      // Best-effort: tetap hapus sesi di frontend meski request logout gagal.
+    } finally {
+      localStorage.removeItem('token');
+      setToken(null);
+      setUser(null);
+    }
   };
 
   return (
