@@ -12,6 +12,7 @@ export interface LoginResponse {
   tokenType: string;
   expiresIn: string;
   user: User;
+  ipAddress?: string;
 }
 
 export interface Stall {

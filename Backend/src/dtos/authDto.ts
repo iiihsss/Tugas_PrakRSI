@@ -10,4 +10,5 @@ export interface LoginResponseDto {
   tokenType: 'Bearer';
   expiresIn: string;
   user: AuthUserDto;
+  ipAddress: string;
 }

@@ -34,6 +34,15 @@ export class ReviewController {
     res.status(200).json({ status: 'success', data });
   };
 
+  createReview = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const data = await this.reviewService.createReview(req.body);
+      return res.status(201).json({ status: 'success', data });
+    } catch (error) {
+      return this.handleError(res, error);
+    }
+  };
+
   createForStall = async (req: Request, res: Response): Promise<void> => {
     const { id: stallId } = getValidated<IdParam>(res, 'params');
     const body = getValidated<CreateReviewInput>(res, 'body');

@@ -36,8 +36,13 @@ export class AuthController {
 
   logout = async (req: Request, res: Response): Promise<void> => {
     const user = getUser(req);
-    await this.authService.logout(user, extractAuditContext(req));
-    res.status(200).json({ status: 'success', message: 'Logout berhasil' });
+    const context = extractAuditContext(req);
+    await this.authService.logout(user, context);
+    res.status(200).json({
+      status: 'success',
+      message: 'Logout berhasil',
+      data: { ipAddress: context.ipAddress },
+    });
   };
 
   getMe = async (req: Request, res: Response): Promise<void> => {
